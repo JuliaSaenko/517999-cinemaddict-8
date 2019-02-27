@@ -1,7 +1,9 @@
 import {render} from '../src/util.js';
 
 const cardsContainer = document.querySelector(`.films-list__container`);
-const extrasContainer = document.querySelectorAll(`.films-list--extra .films-list__container`);
+
+const extrasRateContainer = document.querySelector(`#rate`);
+const extrasCommentsContainer = document.querySelector(`#comments`);
 
 const createCardElement = () => {
   return `<article class="film-card">
@@ -50,7 +52,7 @@ const createExtraCard = () => {
         </article>`;
 };
 
-const renderExtraCards = (count) => {
+const renderExtraRateCards = (count) => {
   let content = ``;
 
   let i = 0;
@@ -59,7 +61,19 @@ const renderExtraCards = (count) => {
     content += createExtraCard();
     i++;
   }
-  render(extrasContainer, content);
+  render(extrasRateContainer, content);
 };
 
-export {renderCards, renderExtraCards};
+const renderExtraCommentsCards = (count) => {
+  let content = ``;
+
+  let i = 0;
+
+  while (i < count) {
+    content += createExtraCard();
+    i++;
+  }
+  render(extrasCommentsContainer, content);
+};
+
+export {renderCards, renderExtraRateCards, renderExtraCommentsCards};

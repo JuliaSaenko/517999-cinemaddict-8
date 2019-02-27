@@ -1,5 +1,5 @@
 import {renderFilters} from './make-filter.js';
-import {renderCards, renderExtraCards} from './make-card.js';
+import {renderCards, renderExtraRateCards, renderExtraCommentsCards} from './make-card.js';
 import {getRandomInteger} from './util.js';
 
 let cardsNumber = 7;
@@ -26,4 +26,5 @@ const FILTERS = [
 
 renderFilters(FILTERS);
 renderCards(cardsNumber);
-renderExtraCards(exstrasNumber);
+renderExtraRateCards(exstrasNumber);
+renderExtraCommentsCards(exstrasNumber);
