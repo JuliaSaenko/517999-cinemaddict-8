@@ -3,7 +3,6 @@ import {getRandomElement} from './util.js';
 
 const DESCRIPTION_COUNT = 3;
 const COMMENTS_MAX = 23;
-const RATING_MAX = 10;
 
 const posters = [
   `accused.jpg`,
@@ -79,7 +78,7 @@ const genres = new Set([
 const dataForCard = () => ({
   poster: getRandomElement(posters),
   title: getRandomElement([...titles]),
-  rating: getRandomIntegerFromInterval(1, RATING_MAX),
+  rating: (Math.random() * (11 - 1) + 1).toFixed(1),
   year: getRandomElement([...years]),
   duration: getRandomElement([...durations]),
   genre: getRandomElement([...genres]),
