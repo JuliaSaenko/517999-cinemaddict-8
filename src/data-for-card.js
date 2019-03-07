@@ -1,8 +1,6 @@
 import {getRandomIntegerFromInterval} from './util.js';
 import {getRandomElement} from './util.js';
-
-const DESCRIPTION_COUNT = 3;
-const COMMENTS_MAX = 23;
+import {getRandomFromSet} from './util.js';
 
 const posters = [
   `accused.jpg`,
@@ -28,10 +26,9 @@ const titles = new Set([
   `The Hobbit: The Battle of the Five Armies`,
   `Green Book`,
   `Forrest Gump`,
-
 ]);
 
-const descriptions = [
+const DESCRIPTIONS = [
   `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
   `Cras aliquet varius magna, non porta ligula feugiat eget.`,
   `Fusce tristique felis at fermentum pharetra.`,
@@ -45,26 +42,6 @@ const descriptions = [
   `In rutrum ac purus sit amet tempus`
 ];
 
-const years = new Set([
-  `2018`,
-  `2012`,
-  `2005`,
-  `2004`,
-  `2003`,
-  `2002`,
-  `2001`
-]);
-
-const durations = new Set([
-  `1h 60m`,
-  `1h 30m`,
-  `2h 30m`,
-  `2h 20m`,
-  `2h 00m`,
-  `1h 33m`,
-  `2h 10m`
-]);
-
 const genres = new Set([
   `Action`,
   `Drama`,
@@ -75,15 +52,48 @@ const genres = new Set([
   `History`
 ]);
 
-const dataForCard = () => ({
+const COMMENTS = [`comment`, `big comment`, `small comment`, `good comment`, ` bad comment`];
+
+const Restrictions = {
+  RATING: {
+    MIN: 1,
+    MAX: 10
+  },
+  YEAR: {
+    MIN: 1970,
+    MAX: 2019
+  },
+  DURATION: {
+    MIN: 60,
+    MAX: 180
+  },
+  MAX_COMMENTS: 3,
+  DESCRIPTION_LENGTH: 3
+};
+
+const getRandomComments = () => {
+  const comments = new Array(getRandomIntegerFromInterval(0, Restrictions.MAX_COMMENTS))
+              .fill()
+              .map(() => COMMENTS[getRandomIntegerFromInterval(0, COMMENTS.length - 1)]);
+  return comments;
+};
+
+const getRandomDescription = () => {
+  return new Array(Restrictions.DESCRIPTION_LENGTH)
+        .fill()
+        .map(() => DESCRIPTIONS[getRandomIntegerFromInterval(0, DESCRIPTIONS.length - 1)])
+        .join(` `);
+};
+
+const getDataForCard = () => ({
+  title: getRandomFromSet(titles),
+  rating: getRandomIntegerFromInterval(Restrictions.RATING.MIN, Restrictions.RATING.MAX),
+  year: getRandomIntegerFromInterval(Restrictions.YEAR.MIN, Restrictions.YEAR.MAX),
+  duration: getRandomIntegerFromInterval(Restrictions.DURATION.MIN, Restrictions.DURATION.MAX),
+  genre: getRandomFromSet(genres),
   poster: getRandomElement(posters),
-  title: getRandomElement([...titles]),
-  rating: (Math.random() * (11 - 1) + 1).toFixed(1),
-  year: getRandomElement([...years]),
-  duration: getRandomElement([...durations]),
-  genre: getRandomElement([...genres]),
-  description: getRandomIntegerFromInterval(descriptions, DESCRIPTION_COUNT, 1).join(` `),
-  comments: getRandomElement(COMMENTS_MAX)
+  description: getRandomDescription(),
+  comments: getRandomComments()
 });
 
-export {dataForCard};
+export {getDataForCard};

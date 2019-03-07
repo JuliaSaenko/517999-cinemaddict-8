@@ -33,7 +33,7 @@ const onFilterClick = (evt) => {
   evt.preventDefault();
 
   cardsContainer.innerHTML = ``;
-  renderCards(getRandomIntegerFromInterval(1, 10), getDataForCard());
+  render(cardsContainer, renderCards(getRandomIntegerFromInterval(1, 10), getDataForCard));
 };
 
 export {renderFilters};

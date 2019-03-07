@@ -1,9 +1,15 @@
-import {render} from './util.js';
-
-const cardsContainer = document.querySelector(`.films-list__container`);
-
-const extrasRateContainer = document.querySelector(`#rate`);
-const extrasCommentsContainer = document.querySelector(`#comments`);
+const makeData = (data) => {
+  return {
+    title: data.title,
+    rating: data.rating,
+    year: data.year,
+    duration: data.duration,
+    genre: data.genre,
+    poster: data.poster,
+    description: data.description,
+    comments: data.comments
+  };
+};
 
 const createCardElement = (card) => {
   return `<article class="film-card">
@@ -32,10 +38,10 @@ const renderCards = (count, getDataForCard) => {
   let i = 0;
 
   while (i < count) {
-    content += createCardElement(getDataForCard);
+    content += createCardElement(makeData(getDataForCard()));
     i++;
   }
-  render(cardsContainer, content);
+  return content;
 };
 
 const createExtraCard = (card) => {
@@ -58,22 +64,22 @@ const renderExtraRateCards = (count, getDataForCard) => {
   let i = 0;
 
   while (i < count) {
-    content += createExtraCard(getDataForCard());
+    content += createExtraCard(makeData(getDataForCard()));
     i++;
   }
-  render(extrasRateContainer, content);
+  return content;
 };
 
-const renderExtraCommentsCards = (count) => {
+const renderExtraCommentsCards = (count, getDataForCard) => {
   let content = ``;
 
   let i = 0;
 
   while (i < count) {
-    content += createExtraCard();
+    content += createExtraCard(makeData(getDataForCard()));
     i++;
   }
-  render(extrasCommentsContainer, content);
+  return content;
 };
 
 export {renderCards, renderExtraRateCards, renderExtraCommentsCards};

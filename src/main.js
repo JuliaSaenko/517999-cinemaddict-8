@@ -3,6 +3,13 @@ import {getDataForCard} from './data-for-card.js';
 import {renderCards, renderExtraRateCards, renderExtraCommentsCards} from './make-card.js';
 import {getRandomIntegerFromInterval} from './util.js';
 
+import {render} from './util.js';
+
+const cardsContainer = document.querySelector(`.films-list__container`);
+
+const extrasRateContainer = document.querySelector(`#rate`);
+const extrasCommentsContainer = document.querySelector(`#comments`);
+
 let cardsNumber = 7;
 let exstrasNumber = 2;
 
@@ -26,6 +33,6 @@ const FILTERS = [
 ];
 
 renderFilters(FILTERS);
-renderCards(cardsNumber, getDataForCard);
-renderExtraRateCards(exstrasNumber, getDataForCard);
-renderExtraCommentsCards(exstrasNumber, getDataForCard);
+render(cardsContainer, renderCards(cardsNumber, getDataForCard));
+render(extrasRateContainer, renderExtraRateCards(exstrasNumber, getDataForCard));
+render(extrasCommentsContainer, renderExtraCommentsCards(exstrasNumber, getDataForCard));
