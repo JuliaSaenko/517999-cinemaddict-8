@@ -1,6 +1,7 @@
-import {render} from '../src/util.js';
-import {getRandomInteger} from '../src/util.js';
+import {render} from './util.js';
+import {getRandomIntegerFromInterval} from './util.js';
 import {renderCards} from './make-card.js';
+import {getDataForCard} from './data-for-card.js';
 
 const mainFilter = document.querySelector(`.main-navigation`);
 const cardsContainer = document.querySelector(`.films-list__container`);
@@ -32,7 +33,7 @@ const onFilterClick = (evt) => {
   evt.preventDefault();
 
   cardsContainer.innerHTML = ``;
-  renderCards(getRandomInteger(1, 10));
+  render(cardsContainer, renderCards(getRandomIntegerFromInterval(1, 10), getDataForCard));
 };
 
 export {renderFilters};
