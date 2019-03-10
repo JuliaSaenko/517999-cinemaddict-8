@@ -12,3 +12,15 @@ export const getRandomFromSet = (set) => {
   let items = Array.from(set);
   return items[Math.floor(Math.random() * items.length)];
 };
+
+export const MINUTES_IN_HOUR = 60;
+
+export const KEY_CODE = {
+  ESC: 27,
+};
+
+export const createElement = (template) => {
+  const newElement = document.createElement(`div`);
+  newElement.innerHTML = template;
+  return newElement.firstChild;
+};
