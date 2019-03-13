@@ -12,7 +12,7 @@ class CardDetails {
     this._comments = data.comments;
 
     this._element = null;
-    this._onClose = null;
+    this._onCloseClick = this._onCloseClick.bind(this);
   }
 
   get _hours() {
@@ -178,7 +178,7 @@ class CardDetails {
 
 
   bind() {
-    this._element.querySelector(`.film-details__close-btn`).addEventListener(`click`, this._onCloseClick.bind(this));
+    this._element.querySelector(`.film-details__close-btn`).addEventListener(`click`, this._onCloseClick);
   }
 
   unbind() {
