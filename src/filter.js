@@ -2,9 +2,7 @@ import {createElement} from './util';
 
 class Filter {
   constructor(data) {
-    this._caption = data.caption;
-    this._amount = data.amount;
-    this._isActive = data.active;
+    this._data = data;
   }
 
   render() {
@@ -14,6 +12,10 @@ class Filter {
 
   get element() {
     return this._element;
+  }
+
+  createFilter() {
+    return this._data.map((it) => this.template(it));
   }
 
   get template() {

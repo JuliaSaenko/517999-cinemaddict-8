@@ -62,8 +62,5 @@ const renderExtraCommentCards = (array) => {
   extrasCommentsContainer.appendChild(fragment);
 };
 
-for (let i = 0; i < exstrasNumber; i++) {
-  extraCardsData.push(getDataForCard());
-}
 
 export {renderExtraRateCards, renderExtraCommentCards, extraCardsData};

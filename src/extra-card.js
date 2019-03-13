@@ -61,7 +61,7 @@ class ExtraCard {
   }
 
   render() {
-    this._element = createElement(this._template);
+    this._element = createElement(this.template);
     this.bind();
     return this._element;
   }
