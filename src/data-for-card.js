@@ -2,9 +2,6 @@ import {getRandomIntegerFromInterval} from './util.js';
 import {getRandomElement} from './util.js';
 import {getRandomFromSet} from './util.js';
 
-let exstrasNumber = 2;
-const extraCardsData = [];
-
 const posters = [
   `accused.jpg`,
   `blackmail.jpg`,
@@ -98,9 +95,5 @@ const getDataForCard = () => ({
   description: getRandomDescription(),
   comments: getRandomComments()
 });
-
-for (let i = 0; i < exstrasNumber; i++) {
-  extraCardsData.push(getDataForCard());
-}
 
 export {getDataForCard};

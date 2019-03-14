@@ -14,10 +14,6 @@ class Filter {
     return this._element;
   }
 
-  createFilter() {
-    return this._data.map((it) => this.template(it));
-  }
-
   get template() {
     return `<a href="#${this._caption.toLowerCase()}"
       class="main-navigation__item
