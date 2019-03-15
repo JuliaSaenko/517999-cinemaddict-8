@@ -1,10 +1,11 @@
 import {render} from './util.js';
-import {getRandomIntegerFromInterval} from './util.js';
-import {renderCards} from './make-card.js';
-import {getDataForCard} from './data-for-card.js';
+import {renderCards, cardsData} from './render-cards.js';
+import {renderExtraRateCards, renderExtraCommentCards, extraCardsData} from './render-extra-card.js';
 
 const mainFilter = document.querySelector(`.main-navigation`);
 const cardsContainer = document.querySelector(`.films-list__container`);
+const extrasRateContainer = document.querySelector(`#rate`);
+const extrasCommentsContainer = document.querySelector(`#comments`);
 
 const createFilterElement = (filter) => {
   const lowerFilterName = filter.caption.toLowerCase();
@@ -33,7 +34,11 @@ const onFilterClick = (evt) => {
   evt.preventDefault();
 
   cardsContainer.innerHTML = ``;
-  render(cardsContainer, renderCards(getRandomIntegerFromInterval(1, 10), getDataForCard));
+  extrasRateContainer.innerHTML = ``;
+  extrasCommentsContainer.innerHTML = ``;
+  renderCards(cardsData);
+  renderExtraRateCards(extraCardsData);
+  renderExtraCommentCards(extraCardsData);
 };
 
 export {renderFilters};
