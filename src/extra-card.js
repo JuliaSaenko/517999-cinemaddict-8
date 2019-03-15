@@ -1,7 +1,8 @@
-import {MINUTES_IN_HOUR, createElement} from './util';
+import {Component} from './component.js';
 
-class ExtraCard {
+class ExtraCard extends Component {
   constructor(data) {
+    super();
     this._title = data.title;
     this._rating = data.rating;
     this._year = data.year;
@@ -13,14 +14,6 @@ class ExtraCard {
 
     this._element = null;
     this._onCommentClick = this._onCommentClick.bind(this);
-  }
-
-  get _hours() {
-    return Math.floor(this._duration / MINUTES_IN_HOUR);
-  }
-
-  get _minutes() {
-    return this._duration - this._hours * MINUTES_IN_HOUR;
   }
 
   get template() {
@@ -44,31 +37,12 @@ class ExtraCard {
     }
   }
 
-  get element() {
-    return this._element;
-  }
-
-  set onClick(fn) {
-    this._onClick = fn;
-  }
-
   bind() {
     this._element.querySelector(`.film-card__comments`).addEventListener(`click`, this._onCommentClick);
   }
 
   unbind() {
     this._element.querySelector(`.film-card__comments`).removeEventListener(`click`, this._onCommentClick);
-  }
-
-  render() {
-    this._element = createElement(this.template);
-    this.bind();
-    return this._element;
-  }
-
-  unRender() {
-    this.unbind();
-    this._element = null;
   }
 }
 

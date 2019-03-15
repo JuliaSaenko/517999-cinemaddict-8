@@ -1,9 +1,10 @@
-import {MINUTES_IN_HOUR, createElement} from './util';
+import {Component} from './component.js';
 
-class CardDetails {
+class CardDetails extends Component {
   constructor(data) {
+    super();
     this._title = data.title;
-    this._rating = data.ating;
+    this._rating = data.rating;
     this._year = data.year;
     this._duration = data.duration;
     this._genre = data.genre;
@@ -12,18 +13,11 @@ class CardDetails {
     this._comments = data.comments;
 
     this._element = null;
+    this._onClick = null;
     this._onCloseClick = this._onCloseClick.bind(this);
   }
 
-  get _hours() {
-    return Math.floor(this._duration / MINUTES_IN_HOUR);
-  }
-
-  get _minutes() {
-    return this._duration - this._hours * MINUTES_IN_HOUR;
-  }
-
-  get _template() {
+  get template() {
     return `<section class="film-details">
       <form class="film-details__inner" action="" method="get">
         <div class="film-details__close">
@@ -31,17 +25,17 @@ class CardDetails {
         </div>
         <div class="film-details__info-wrap">
           <div class="film-details__poster">
-            <img class="film-details__poster-img" src="${ this._poster }" alt="${ this._title }">
+            <img class="film-details__poster-img" src="images/posters/${this._poster}" alt="${this._title }">
              <p class="film-details__age">18+</p>
           </div>
            <div class="film-details__info">
             <div class="film-details__info-head">
               <div class="film-details__title-wrap">
-                <h3 class="film-details__title">${ this._title }</h3>
+                <h3 class="film-details__title">${this._title}</h3>
                 <p class="film-details__title-original">Original: Невероятная семейка</p>
               </div>
                <div class="film-details__rating">
-                <p class="film-details__total-rating">${ this._rating }</p>
+                <p class="film-details__total-rating">${this._rating}</p>
                 <p class="film-details__user-rating">Your rate 8</p>
               </div>
             </div>
@@ -79,7 +73,7 @@ class CardDetails {
               </tr>
             </table>
              <p class="film-details__film-description">
-              ${ this._description }
+              ${this._description}
             </p>
           </div>
         </div>
@@ -130,10 +124,10 @@ class CardDetails {
           </div>
            <div class="film-details__user-score">
             <div class="film-details__user-rating-poster">
-              <img src="${ this._poster }" alt="${ this._title }" class="film-details__user-rating-img">
+              <img src="images/posters/${this._poster}" alt="${this._title}" class="film-details__user-rating-img">
             </div>
              <section class="film-details__user-rating-inner">
-              <h3 class="film-details__user-rating-title">${ this._title }</h3>
+              <h3 class="film-details__user-rating-title">${this._title}</h3>
                <p class="film-details__user-rating-feelings">How you feel it?</p>
                <div class="film-details__user-rating-score">
                 <input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="1" id="rating-1">
@@ -163,17 +157,9 @@ class CardDetails {
   }
 
   _onCloseClick() {
-    if (typeof this._onClose === `function`) {
-      this._onClose();
+    if (typeof this._onClick === `function`) {
+      this._onClick();
     }
-  }
-
-  get element() {
-    return this._element;
-  }
-
-  set onClose(func) {
-    this._onClose = func;
   }
 
 
@@ -183,18 +169,6 @@ class CardDetails {
 
   unbind() {
     this._element.querySelector(`.film-details__close-btn`).removeEventListener(`click`, this._onCloseClick);
-  }
-
-
-  render() {
-    this._element = createElement(this._template);
-    this.bind();
-    return this._element;
-  }
-
-  unRender() {
-    this.unbind();
-    this._element = null;
   }
 }
 
