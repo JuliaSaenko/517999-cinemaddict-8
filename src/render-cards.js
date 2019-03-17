@@ -20,7 +20,13 @@ const renderCards = (array) => {
       cardsContainer.appendChild(cardDetails.element);
     };
 
-    cardDetails.onClick = () => {
+    cardDetails.onClick = (newObject) => {
+      newCard.comments = newObject.comments;
+      newCard.isInWatchlist = newObject.isInWatchlist;
+      newCard.isWatched = newObject.isWatched;
+      newCard.isFavorite = newObject.isFavorite;
+
+      newCard.update(newCard);
       cardsContainer.removeChild(cardDetails.element);
       cardDetails.unRender();
     };

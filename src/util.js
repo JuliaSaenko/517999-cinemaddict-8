@@ -2,6 +2,8 @@ export const render = (source, content) => {
   source.innerHTML = content;
 };
 
+export const getRandom = (max, min = 0) => Math.random() * (max - min) + min;
+
 export const getRandomIntegerFromInterval = (min, max) => Math.round(min - 0.5 + Math.random() * (max - min + 1));
 
 export const getRandomElement = (array) => array[getRandomIntegerFromInterval(0, array.length - 1)];
@@ -13,11 +15,9 @@ export const getRandomFromSet = (set) => {
   return items[Math.floor(Math.random() * items.length)];
 };
 
-export const MINUTES_IN_HOUR = 60;
+export const ESC_KEYCODE = 27;
+export const ENTER_KEYCODE = 13;
 
-export const KEY_CODE = {
-  ESC: 27,
-};
 
 export const createElement = (template) => {
   const newElement = document.createElement(`div`);

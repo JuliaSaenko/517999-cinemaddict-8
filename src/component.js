@@ -1,4 +1,4 @@
-import {MINUTES_IN_HOUR, createElement} from './util';
+import {createElement} from './util';
 
 class Component {
   constructor() {
@@ -9,21 +9,8 @@ class Component {
     this._onClick = null;
   }
 
-  get _hours() {
-    return Math.floor(this._duration / MINUTES_IN_HOUR);
-  }
-
-  get _minutes() {
-    return this._duration - this._hours * MINUTES_IN_HOUR;
-  }
-
-
   get element() {
     return this._element;
-  }
-
-  set onClick(fn) {
-    this._onClick = fn;
   }
 
   get template() {
@@ -35,6 +22,8 @@ class Component {
     this.bind();
     return this._element;
   }
+
+  update() {}
 
   bind() {}
 

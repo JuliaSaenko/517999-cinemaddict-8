@@ -1,20 +1,34 @@
 import {Component} from './component.js';
+import {ENTER_KEYCODE} from './util';
+import moment from 'moment';
 
 class CardDetails extends Component {
   constructor(data) {
     super();
-    this._title = data.title;
-    this._rating = data.rating;
-    this._year = data.year;
-    this._duration = data.duration;
-    this._genre = data.genre;
     this._poster = data.poster;
+    this._title = data.title;
+    this._originalTitle = this._title;
+    this._actors = data.actors;
+    this._releaseDate = data.releaseDate;
+    this._duration = data.duration;
+    this._country = data.country;
+    this._genre = data.genre;
+    this._rating = data.rating;
+    this._userRating = data.userRating;
+    this._ageLimit = data.ageLimit;
     this._description = data.description;
     this._comments = data.comments;
+
+    this._isInWatchlist = data.isInWatchlist;
+    this._isWatched = data.isWatched;
+    this._isFavorite = data.isFavorite;
 
     this._element = null;
     this._onClick = null;
     this._onCloseClick = this._onCloseClick.bind(this);
+    this._onAddComment = this._onAddComment.bind(this);
+    this._onChangeRating = this._onChangeRating.bind(this);
+    this._onChangeEmoji = this._onChangeEmoji.bind(this);
   }
 
   get template() {
@@ -25,18 +39,18 @@ class CardDetails extends Component {
         </div>
         <div class="film-details__info-wrap">
           <div class="film-details__poster">
-            <img class="film-details__poster-img" src="images/posters/${this._poster}" alt="${this._title }">
-             <p class="film-details__age">18+</p>
+            <img class="film-details__poster-img" src="images/posters/${this._poster}" alt="${this._title}">
+             <p class="film-details__age">${this._ageLimit}</p>
           </div>
            <div class="film-details__info">
             <div class="film-details__info-head">
               <div class="film-details__title-wrap">
                 <h3 class="film-details__title">${this._title}</h3>
-                <p class="film-details__title-original">Original: Невероятная семейка</p>
+                <p class="film-details__title-original">${this._originalTitle}</p>
               </div>
                <div class="film-details__rating">
                 <p class="film-details__total-rating">${this._rating}</p>
-                <p class="film-details__user-rating">Your rate 8</p>
+                <p class="film-details__user-rating"><span>${this._userRating}</span></p>
               </div>
             </div>
              <table class="film-details__table">
@@ -50,26 +64,25 @@ class CardDetails extends Component {
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Actors</td>
-                <td class="film-details__cell">Samuel L. Jackson, Catherine Keener, Sophia Bush</td>
+                <td class="film-details__cell">${this._actors}</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Release Date</td>
-                <td class="film-details__cell">15 June 2018 (USA)</td>
+                <td class="film-details__cell">${moment(this._releaseDate).format(`D MMMM YYYY`)} (${this._country})</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Runtime</td>
-                <td class="film-details__cell">118 min</td>
+                <td class="film-details__cell">${moment.duration(this._duration).asMinutes().toFixed()} min</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Country</td>
-                <td class="film-details__cell">USA</td>
+                <td class="film-details__cell">${this._country}</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Genres</td>
-                <td class="film-details__cell">
-                  <span class="film-details__genre">Animation</span>
-                  <span class="film-details__genre">Action</span>
-                  <span class="film-details__genre">Adventure</span></td>
+                <td class="film-details__cell">${this._genre.map((item) => (`
+                  <span class="film-details__genre">${item}</span>
+                  `)).join(` `)}
               </tr>
             </table>
              <p class="film-details__film-description">
@@ -78,26 +91,17 @@ class CardDetails extends Component {
           </div>
         </div>
          <section class="film-details__controls">
-          <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist">
+          <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist"  ${this._isInWatchlist ? `checked` : ``}>
           <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
-           <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" checked>
+           <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" ${this._isWatched ? `checked` : ``}>
           <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
-           <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite">
+           <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite" ${this._isFavorite ? `checked` : ``}>
           <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
         </section>
          <section class="film-details__comments-wrap">
-          <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">1</span></h3>
+          <h3 class="film-details__comments-title">CommentsComment${this._comments.length > 1 ? `s` : ``} <span class="film-details__comments-count">${this._comments.length}</span></h3>
            <ul class="film-details__comments-list">
-            <li class="film-details__comment">
-              <span class="film-details__comment-emoji">😴</span>
-              <div>
-                <p class="film-details__comment-text">So long-long story, boring!</p>
-                <p class="film-details__comment-info">
-                  <span class="film-details__comment-author">Tim Macoveev</span>
-                  <span class="film-details__comment-day">3 days ago</span>
-                </p>
-              </div>
-            </li>
+             ${this._getCommentsTemplate()}
           </ul>
            <div class="film-details__new-comment">
             <div>
@@ -130,24 +134,7 @@ class CardDetails extends Component {
               <h3 class="film-details__user-rating-title">${this._title}</h3>
                <p class="film-details__user-rating-feelings">How you feel it?</p>
                <div class="film-details__user-rating-score">
-                <input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="1" id="rating-1">
-                <label class="film-details__user-rating-label" for="rating-1">1</label>
-                 <input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="2" id="rating-2">
-                <label class="film-details__user-rating-label" for="rating-2">2</label>
-                 <input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="3" id="rating-3">
-                <label class="film-details__user-rating-label" for="rating-3">3</label>
-                 <input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="4" id="rating-4">
-                <label class="film-details__user-rating-label" for="rating-4">4</label>
-                 <input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="5" id="rating-5" checked>
-                <label class="film-details__user-rating-label" for="rating-5">5</label>
-                 <input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="6" id="rating-6">
-                <label class="film-details__user-rating-label" for="rating-6">6</label>
-                 <input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="7" id="rating-7">
-                <label class="film-details__user-rating-label" for="rating-7">7</label>
-                 <input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="8" id="rating-8">
-                <label class="film-details__user-rating-label" for="rating-8">8</label>
-                 <input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="9" id="rating-9">
-                <label class="film-details__user-rating-label" for="rating-9">9</label>
+                ${this._createRating()}
                </div>
             </section>
           </div>
@@ -157,18 +144,133 @@ class CardDetails extends Component {
   }
 
   _onCloseClick() {
+    const formData = new FormData(this._element.querySelector(`.film-details__inner`));
+    const newData = this._processForm(formData);
     if (typeof this._onClick === `function`) {
-      this._onClick();
+      this._onClick(newData);
     }
+    this.update(newData);
+  }
+
+  set onClick(fn) {
+    this._onClick = fn;
+  }
+
+  _processForm(formData) {
+    const entry = {
+      userRating: this._userRating,
+      comments: this._comments,
+      isInWatchlist: this._isInWatchlist,
+      isWatched: this._isWatched,
+      isFavorite: this._isFavorite
+    };
+
+    const cardDetailsMapper = CardDetails.createMapper(entry);
+
+    for (const [property, value] of formData.entries()) {
+      if (cardDetailsMapper[property]) {
+        cardDetailsMapper[property](value);
+      }
+    }
+
+    return entry;
+  }
+
+  update(data) {
+    this._userRating = data.userRating;
+    this._comments = data.comments;
+    this._isInWatchlist = data.isInWatchlist;
+    this._isWatched = data.isWatched;
+    this._isFavorite = data.isFavorite;
+  }
+
+  static createMapper(target) {
+    return {
+      rating: (value) => (target.userRating = value),
+      comments: (value) => (target.comments = value),
+      watchlist: (value) => (target.isInWatchlist = value),
+      watched: (value) => (target.isWatched = value),
+      favorite: (value) => (target.isFavorite = value)
+    };
+  }
+
+  _onAddComment(evt) {
+    if (evt.keyCode === ENTER_KEYCODE) {
+      evt.preventDefault();
+      const textarea = this._element.querySelector(`.film-details__comment-input`);
+      const newComment = {
+        author: `I'am`,
+        date: Date.now(),
+        text: textarea.value,
+        emoji: this._element.querySelector(`.film-details__add-emoji-label`).textContent
+      };
+
+      this._comments.push(newComment);
+      textarea.value = ``;
+      this._element.querySelector(`.film-details__add-emoji`).checked = false;
+      this._element.querySelector(`.film-details__comments-list`).innerHTML = this._getCommentsTemplate();
+      this._element.querySelector(`.film-details__comments-count`).textContent = this._comments.length;
+    }
+  }
+
+  _onChangeRating() {
+    this._userRating = this._element.querySelector(`.film-details__user-rating-input:checked`).value;
+    this._element.querySelector(`.film-details__user-rating span`).textContent = this._userRating;
+  }
+
+  _onChangeEmoji() {
+    const emoji = this._element.querySelector(`.film-details__emoji-item:checked + label`).textContent;
+    this._element.querySelector(`.film-details__add-emoji-label`).textContent = emoji;
+  }
+
+  _createRating() {
+    const ratingMax = 9;
+    let rating = ``;
+    for (let i = 1; i <= ratingMax; i++) {
+      rating += `
+        <input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="${i}" id="rating-${i}" ${i === this._userRating ? `checked` : ``}>
+        <label class="film-details__user-rating-label" for="rating-${i}">${i}</label>
+      `;
+    }
+    return rating;
+  }
+
+  _getCommentsTemplate() {
+    return this._comments.map((item) => (`
+    <li class="film-details__comment">
+    <span class="film-details__comment-emoji">${item.emoji}</span>
+    <div>
+      <p class="film-details__comment-text">${item.text}</p>
+      <p class="film-details__comment-info">
+        <span class="film-details__comment-author">${item.author}</span>
+        <span class="film-details__comment-day">${moment(item.date).fromNow()}</span>
+      </p>
+    </div>
+  </li>
+    `)).join(``);
   }
 
 
   bind() {
     this._element.querySelector(`.film-details__close-btn`).addEventListener(`click`, this._onCloseClick);
+    this._element.querySelectorAll(`.film-details__emoji-item`).forEach((item) => {
+      item.addEventListener(`change`, this._onChangeEmoji);
+    });
+    this._element.querySelectorAll(`.film-details__user-rating-input`).forEach((item) => {
+      item.addEventListener(`click`, this._onChangeRating);
+    });
+    this._element.querySelector(`.film-details__comment-input`).addEventListener(`keydown`, this._onAddComment);
   }
 
   unbind() {
     this._element.querySelector(`.film-details__close-btn`).removeEventListener(`click`, this._onCloseClick);
+    this._element.querySelectorAll(`.film-details__emoji-item`).forEach((item) => {
+      item.removeEventListener(`change`, this._onChangeEmoji);
+    });
+    this._element.querySelectorAll(`.film-details__user-rating-input`).forEach((item) => {
+      item.removeEventListener(`click`, this._onChangeRating);
+    });
+    this._element.querySelector(`.film-details__comment-input`).removeEventListener(`keydown`, this._onAddComment);
   }
 }
 
