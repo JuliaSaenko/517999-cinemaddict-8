@@ -8,7 +8,7 @@ class Card extends Component {
     this._rating = data.rating;
     this._releaseDate = data.releaseDate;
     this._duration = data.duration;
-    this._genre = data.genre[0];
+    this._genre = data.genre;
     this._poster = data.poster;
     this._description = data.description;
     this._comments = data.comments;
@@ -28,7 +28,7 @@ class Card extends Component {
               <p class="film-card__info">
                 <span class="film-card__year">${moment(this._releaseDate).year()}</span>
                 <span class="film-card__duration">${moment.duration(this._duration).hours()}h&nbsp;${moment.duration(this._duration).minutes()}m</span></span>
-                <span class="film-card__genre">${this._genre}</span>
+                <span class="film-card__genre">${[this._genre][0]}</span>
               </p>
               <img src="./images/posters/${this._poster}" alt="" class="film-card__poster">
               <p class="film-card__description">${this._description}</p>

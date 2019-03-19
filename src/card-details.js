@@ -80,7 +80,7 @@ class CardDetails extends Component {
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Genres</td>
-                <td class="film-details__cell">${this._genre.map((item) => (`
+                <td class="film-details__cell">${[this._genre].map((item) => (`
                   <span class="film-details__genre">${item}</span>
                   `)).join(` `)}
               </tr>

@@ -2,10 +2,10 @@ import {getRandomIntegerFromInterval} from './util.js';
 import {getRandomElement} from './util.js';
 import {getRandomBoolean} from './util.js';
 import {getRandomFromSet} from './util.js';
+import {getRandomsFromSet} from './util.js';
 import moment from 'moment';
 
-// const ACTORS_MAX = 10;
-// const GENRES_MAX = 3;
+const ACTORS_MAX = 10;
 const USER_DEFAULT_RATING = 5;
 
 const Time = {
@@ -88,7 +88,7 @@ const ageLimit = [
   `18+`,
 ];
 
-const genres = new Set([
+const genres = [
   `Action`,
   `Drama`,
   `Fantasy`,
@@ -96,7 +96,7 @@ const genres = new Set([
   `Comedy`,
   `Romance`,
   `History`
-]);
+];
 
 const Restrictions = {
   RATING: {
@@ -125,13 +125,13 @@ const getRandomDescription = () => {
 const getDataForCard = () => ({
   poster: getRandomElement(posters),
   title: getRandomFromSet(titles),
-  actors: getRandomFromSet(actors),
+  actors: getRandomsFromSet([...actors], ACTORS_MAX, 1).join(`, `),
   country: getRandomFromSet(countries),
   rating: getRandomIntegerFromInterval(Restrictions.RATING.MIN, Restrictions.RATING.MAX),
   userRating: USER_DEFAULT_RATING,
-  releaseDate: Date.now() + getRandomIntegerFromInterval(Time.YEAR + 1, (-Time.YEAR) * 15) * getRandomIntegerFromInterval(Time.MS_IN_DAY),
+  releaseDate: Date.now() + getRandomIntegerFromInterval(Time.YEAR + 1, (-Time.YEAR) * 15) * getRandomIntegerFromInterval(0, Time.MS_IN_DAY),
   duration: getRandomIntegerFromInterval(Time.HOUR * 2.5, Time.HOUR),
-  genre: getRandomFromSet(genres),
+  genre: genres[getRandomIntegerFromInterval(0, 3)],
   ageLimit: getRandomElement(ageLimit),
   description: getRandomDescription(),
   comments: [
