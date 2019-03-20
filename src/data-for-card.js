@@ -1,6 +1,18 @@
 import {getRandomIntegerFromInterval} from './util.js';
 import {getRandomElement} from './util.js';
+import {getRandomBoolean} from './util.js';
 import {getRandomFromSet} from './util.js';
+import {getRandomsFromSet} from './util.js';
+import moment from 'moment';
+
+const ACTORS_MAX = 10;
+const USER_DEFAULT_RATING = 5;
+
+const Time = {
+  YEAR: 365,
+  MS_IN_DAY: 86400000,
+  HOUR: 3600000,
+};
 
 const posters = [
   `accused.jpg`,
@@ -28,6 +40,32 @@ const titles = new Set([
   `Forrest Gump`,
 ]);
 
+const actors = new Set([
+  `Ewan McGregor`,
+  `Natalie Portman`,
+  `Hayden Christensen`,
+  `Samuel L. Jackson`,
+  `Elijah Wood`,
+  `Ian McKellen`,
+  `Viggo Mortensen`,
+  `Orlando Bloom`,
+  `Sean Bean`,
+  `Sean Astin`,
+  `Christopher Lee`,
+  `Cate Blanchett`
+]);
+
+const countries = new Set([
+  `USA`,
+  `Canada`,
+  `Russia`,
+  `Germany`,
+  `France`,
+  `Spain`,
+  `Italy`,
+  `Australia`
+]);
+
 const DESCRIPTIONS = [
   `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
   `Cras aliquet varius magna, non porta ligula feugiat eget.`,
@@ -42,7 +80,15 @@ const DESCRIPTIONS = [
   `In rutrum ac purus sit amet tempus`
 ];
 
-const genres = new Set([
+const ageLimit = [
+  `0+`,
+  `6+`,
+  `12+`,
+  `16+`,
+  `18+`,
+];
+
+const genres = [
   `Action`,
   `Drama`,
   `Fantasy`,
@@ -50,9 +96,7 @@ const genres = new Set([
   `Comedy`,
   `Romance`,
   `History`
-]);
-
-const COMMENTS = [`comment`, `big comment`, `small comment`, `good comment`, ` bad comment`];
+];
 
 const Restrictions = {
   RATING: {
@@ -71,13 +115,6 @@ const Restrictions = {
   DESCRIPTION_LENGTH: 3
 };
 
-const getRandomComments = () => {
-  const comments = new Array(getRandomIntegerFromInterval(0, Restrictions.MAX_COMMENTS))
-              .fill()
-              .map(() => COMMENTS[getRandomIntegerFromInterval(0, COMMENTS.length - 1)]);
-  return comments;
-};
-
 const getRandomDescription = () => {
   return new Array(Restrictions.DESCRIPTION_LENGTH)
         .fill()
@@ -86,14 +123,28 @@ const getRandomDescription = () => {
 };
 
 const getDataForCard = () => ({
-  title: getRandomFromSet(titles),
-  rating: getRandomIntegerFromInterval(Restrictions.RATING.MIN, Restrictions.RATING.MAX),
-  year: getRandomIntegerFromInterval(Restrictions.YEAR.MIN, Restrictions.YEAR.MAX),
-  duration: getRandomIntegerFromInterval(Restrictions.DURATION.MIN, Restrictions.DURATION.MAX),
-  genre: getRandomFromSet(genres),
   poster: getRandomElement(posters),
+  title: getRandomFromSet(titles),
+  actors: getRandomsFromSet([...actors], ACTORS_MAX, 1).join(`, `),
+  country: getRandomFromSet(countries),
+  rating: getRandomIntegerFromInterval(Restrictions.RATING.MIN, Restrictions.RATING.MAX),
+  userRating: USER_DEFAULT_RATING,
+  releaseDate: Date.now() + getRandomIntegerFromInterval(Time.YEAR + 1, (-Time.YEAR) * 15) * getRandomIntegerFromInterval(0, Time.MS_IN_DAY),
+  duration: getRandomIntegerFromInterval(Time.HOUR * 2.5, Time.HOUR),
+  genre: genres[getRandomIntegerFromInterval(0, 3)],
+  ageLimit: getRandomElement(ageLimit),
   description: getRandomDescription(),
-  comments: getRandomComments()
+  comments: [
+    {
+      author: `Tim Macoveev`,
+      date: moment(),
+      text: `So long-long story, boring!`,
+      emoji: `😴`
+    }
+  ],
+  isInWatchlist: getRandomBoolean(),
+  isWatched: getRandomBoolean(),
+  isFavorite: getRandomBoolean()
 });
 
 export {getDataForCard};

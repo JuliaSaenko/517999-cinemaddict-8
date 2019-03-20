@@ -21,7 +21,12 @@ const renderExtraRateCards = (array) => {
       extrasRateContainer.appendChild(cardDetails.element);
     };
 
-    cardDetails.onClick = () => {
+    cardDetails.onClick = (newObject) => {
+      newCard.comments = newObject.comments;
+      newCard.isInWatchlist = newObject.isInWatchlist;
+      newCard.isWatched = newObject.isWatched;
+      newCard.isFavorite = newObject.isFavorite;
+
       extrasRateContainer.removeChild(cardDetails.element);
       cardDetails.unRender();
     };
@@ -46,7 +51,12 @@ const renderExtraCommentCards = (array) => {
       extrasCommentsContainer.appendChild(cardDetails.element);
     };
 
-    cardDetails.onClick = () => {
+    cardDetails.onClick = (newObject) => {
+      newCard.comments = newObject.comments;
+      newCard.isInWatchlist = newObject.isInWatchlist;
+      newCard.isWatched = newObject.isWatched;
+      newCard.isFavorite = newObject.isFavorite;
+
       extrasCommentsContainer.removeChild(cardDetails.element);
       cardDetails.unRender();
     };
