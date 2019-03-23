@@ -1,14 +1,11 @@
+import Component from './component';
 
-import {createElement} from './util';
+class Filter extends Component {
+  constructor(filters) {
+    super();
+    this._list = filters;
 
-class Filter {
-  constructor(data) {
-    this._data = data;
-  }
-
-  render() {
-    this._element = createElement(this.template);
-    return this.element;
+    this._onClick = filters.onClick;
   }
 
   get element() {
@@ -16,13 +13,25 @@ class Filter {
   }
 
   get template() {
-    return `<a href="#${this._caption.toLowerCase()}"
-      class="main-navigation__item
-      ${(this._active) ? `main-navigation__item--active` : ``}">
-      ${this._caption}
-      ${this._amount ? `<span class="main-navigation__item-count">${this._amount}</span>` : ` `}
-    </a>`;
+    return `<nav class="main-navigation">
+      ${this._items.map((it) => `
+        <a href="#${it._caption.toLowerCase()}"
+          class="main-navigation__item
+          ${(it._active) ? `main-navigation__item--active` : ``}">
+          ${it._caption}
+          ${it._amount ? `<span class="main-navigation__item-count">${it._amount}</span>` : ` `}
+        </a>`)}
+  </nav>`;
+  }
+
+  set onClick(fn) {
+    this.element.querySelector(`click`, this._onFilterClick);
+  }
+
+  _onFilterClick(evt) {
+    if (evt.target.nodeName === `A`) {
+      this._onClick(evt.target.href);
+    }
   }
 }
-
 export {Filter};

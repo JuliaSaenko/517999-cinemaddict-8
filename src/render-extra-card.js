@@ -2,7 +2,7 @@ import {ExtraCard} from './extra-card.js';
 import {CardDetails} from './card-details.js';
 import {getDataForCard} from './data-for-card.js';
 
-const extraCardsData = [];
+const getExtraCardsData = [];
 const extrasRateContainer = document.querySelector(`#rate`);
 const extrasCommentsContainer = document.querySelector(`#comments`);
 
@@ -69,7 +69,7 @@ const renderExtraCommentCards = (array) => {
 };
 
 for (let i = 0; i < exstrasNumber; i++) {
-  extraCardsData.push(getDataForCard());
+  getExtraCardsData.push(getDataForCard());
 }
 
-export {renderExtraRateCards, renderExtraCommentCards, extraCardsData};
+export {renderExtraRateCards, renderExtraCommentCards, getExtraCardsData};

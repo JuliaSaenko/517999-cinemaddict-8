@@ -22,6 +22,7 @@ class CardDetails extends Component {
     this._isInWatchlist = data.isInWatchlist;
     this._isWatched = data.isWatched;
     this._isFavorite = data.isFavorite;
+    this._watchedDate = data._watchedDate;
 
     this._element = null;
     this._onClick = null;
@@ -195,7 +196,7 @@ class CardDetails extends Component {
   }
 
   _onAddComment(evt) {
-    if (evt.keyCode === ENTER_KEYCODE) {
+    if (evt.ctrlKey && evt.keyCode === ENTER_KEYCODE) {
       evt.preventDefault();
       const textarea = this._element.querySelector(`.film-details__comment-input`);
       const newComment = {

@@ -3,7 +3,7 @@ import {CardDetails} from './card-details.js';
 import {getDataForCard} from './data-for-card.js';
 
 const cardsContainer = document.querySelector(`.films-list__container`);
-const cardsData = [];
+const getCardsData = [];
 
 let cardsNumber = 7;
 
@@ -39,7 +39,7 @@ const renderCards = (array) => {
 };
 
 for (let i = 0; i < cardsNumber; i++) {
-  cardsData.push(getDataForCard());
+  getCardsData.push(getDataForCard());
 }
 
-export {renderCards, cardsData};
+export {renderCards, getCardsData};
