@@ -1,4 +1,4 @@
-import Component from './component';
+import {Component} from './component';
 
 class Filter extends Component {
   constructor(filters) {
@@ -24,13 +24,13 @@ class Filter extends Component {
   </nav>`;
   }
 
-  set onClick(fn) {
-    this.element.querySelector(`click`, this._onFilterClick);
+  bind() {
+    this.element.querySelector(`.main-navigation`).addEventListener(`click`, this._onFilterClick);
   }
 
   _onFilterClick(evt) {
     if (evt.target.nodeName === `A`) {
-      this._onClick(evt.target.href);
+      this._onClick(evt.target.hesh);
     }
   }
 }

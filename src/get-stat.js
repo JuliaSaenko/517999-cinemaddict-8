@@ -7,14 +7,14 @@ const statisticCtx = document.querySelector(`.statistic__chart`);
 const textStats = document.querySelectorAll(`.statistic__item-text`);
 
 function statsInit(data) {
-  let myChart;
   const stats = getStats(data);
   const BAR_HEIGHT = 50;
   const hours = moment.duration(stats.totalDuration).hours();
   const minutes = moment.duration(stats.totalDuration).minutes();
   statisticCtx.height = BAR_HEIGHT * stats.labels.length;
 
-  myChart = new Chart(statisticCtx, {
+  // eslint-disable-next-line no-unused-vars
+  const myChart = new Chart(statisticCtx, {
     plugins: [ChartDataLabels],
     type: `horizontalBar`,
     data: {

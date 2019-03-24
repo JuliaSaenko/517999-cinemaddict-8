@@ -5,7 +5,12 @@ import {getDataForCard} from './data-for-card.js';
 const cardsContainer = document.querySelector(`.films-list__container`);
 const getCardsData = [];
 
-let cardsNumber = 7;
+let CARDS_COUNT = 7;
+
+const updateCard = (cards, i, newCard) => {
+  cards[i] = Object.assign({}, cards[i], newCard);
+  return cards[i];
+};
 
 const renderCards = (array) => {
   let i = 0;
@@ -21,14 +26,30 @@ const renderCards = (array) => {
     };
 
     cardDetails.onClick = (newObject) => {
+      const updatedCard = updateCard(cardsData, i, newObject);
       newCard.comments = newObject.comments;
       newCard.isInWatchlist = newObject.isInWatchlist;
       newCard.isWatched = newObject.isWatched;
       newCard.isFavorite = newObject.isFavorite;
 
-      newCard.update(newCard);
+      newCard.update(updatedCard);
       cardsContainer.removeChild(cardDetails.element);
       cardDetails.unRender();
+    };
+
+    newCard.onAddToWatchList = (state) => {
+      array[i].isInWatchlist = state;
+      cardDetails.update(array[i]);
+    };
+
+    newCard.onMarkAsWatched = (state) => {
+      newCard.isWatched = state;
+      cardDetails.update(newCard);
+    };
+
+    newCard.onAddToFavorite = (state) => {
+      newCard.isFavorite = state;
+      cardDetails.update(newCard);
     };
 
     fragment.appendChild(newCard.render());
@@ -38,8 +59,10 @@ const renderCards = (array) => {
   cardsContainer.appendChild(fragment);
 };
 
-for (let i = 0; i < cardsNumber; i++) {
+for (let i = 0; i < CARDS_COUNT; i++) {
   getCardsData.push(getDataForCard());
 }
 
-export {renderCards, getCardsData};
+const cardsData = renderCards(CARDS_COUNT);
+
+export {renderCards, getCardsData, cardsData};
