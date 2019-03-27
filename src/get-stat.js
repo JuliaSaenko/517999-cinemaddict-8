@@ -71,7 +71,7 @@ function statsInit(data) {
     }
   });
 
-  textStats[0].innerHTML = `${stats.total } <span class="statistic__item-description">movies</span>`;
+  textStats[0].innerHTML = `${stats.total} <span class="statistic__item-description">movies</span>`;
   textStats[1].innerHTML = `${hours} <span class="statistic__item-description">h</span> ${minutes} <span class="statistic__item-description">m</span>`;
   textStats[2].innerHTML = `${stats.topGenre}`;
 }
@@ -87,13 +87,14 @@ function getStats(data) {
       }
     });
   });
-  watchedStats.labels = Object.keys(watchedStats).sort((a, b) => b - a);
-  watchedStats.values = Object.values(watchedStats).sort((a, b) => b - a);
-  watchedStats.topGenre = watchedStats.labels[0];
-  watchedStats.total = getWatchedFilms(data).length;
-  watchedStats.totalDuration = getTotalDuration(data);
+  const result = {};
+  result.labels = Object.keys(watchedStats).sort((a, b) => b - a);
+  result.values = Object.values(watchedStats).sort((a, b) => b - a);
+  result.topGenre = result.labels[0];
+  result.total = getWatchedFilms(data).length;
+  result.totalDuration = getTotalDuration(data);
 
-  return watchedStats;
+  return result;
 }
 
 function getTotalDuration(data) {

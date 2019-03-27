@@ -6,7 +6,13 @@ const getExtraCardsData = [];
 const extrasRateContainer = document.querySelector(`#rate`);
 const extrasCommentsContainer = document.querySelector(`#comments`);
 
-let exstrasNumber = 2;
+let EXTRA_CARDS_COUNT = 2;
+
+const updateCard = (cards, i, newCard) => {
+  cards[i] = Object.assign({}, cards[i], newCard);
+  return cards[i];
+};
+
 
 const renderExtraRateCards = (array) => {
   let i = 0;
@@ -68,8 +74,18 @@ const renderExtraCommentCards = (array) => {
   extrasCommentsContainer.appendChild(fragment);
 };
 
-for (let i = 0; i < exstrasNumber; i++) {
+for (let i = 0; i < EXTRA_CARDS_COUNT; i++) {
   getExtraCardsData.push(getDataForCard());
 }
 
-export {renderExtraRateCards, renderExtraCommentCards, getExtraCardsData};
+function createData(count) {
+  let result = [];
+  for (let i = 0; i < count; i++) {
+    result.push(getDataForCard());
+  }
+  return result;
+}
+
+const extraCardsData = createData(EXTRA_CARDS_COUNT);
+
+export {renderExtraRateCards, renderExtraCommentCards, extraCardsData};

@@ -1,5 +1,5 @@
-import {renderCards, getCardsData, cardsData} from './render-cards.js';
-import {renderExtraRateCards, renderExtraCommentCards, getExtraCardsData} from './render-extra-card.js';
+import {renderCards, cardsData} from './render-cards.js';
+import {renderExtraRateCards, renderExtraCommentCards, extraCardsData} from './render-extra-card.js';
 import {Filter} from './filter';
 import {statsInit} from './get-stat.js';
 import moment from 'moment';
@@ -80,16 +80,16 @@ const onStatsButtonClick = (evt) => {
   const active = mainFilter.querySelector(`.main-navigation__item--active`);
   active.classList.remove(`.main-navigation__item--active`);
   statsButton.classList.add(`.main-navigation__item--active`);
-  FILMS.classList.add(`.visually-hidden`);
-  STATS.classList.remove(`.visually-hidden`);
+  FILMS.classList.add(`visually-hidden`);
+  STATS.classList.remove(`visually-hidden`);
   statsInit(cardsData);
 };
 
 statsButton.addEventListener(`click`, onStatsButtonClick);
 
-renderCards(getCardsData);
-renderExtraRateCards(getExtraCardsData);
-renderExtraCommentCards(getExtraCardsData);
+renderCards(cardsData);
+renderExtraRateCards(extraCardsData);
+renderExtraCommentCards(extraCardsData);
 
 // Это варианты, которые я нашла для обрезки # Какой лучше?
 

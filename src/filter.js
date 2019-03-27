@@ -30,7 +30,7 @@ class Filter extends Component {
 
   _onFilterClick(evt) {
     if (evt.target.nodeName === `A`) {
-      this._onClick(evt.target.hesh);
+      this._onClick(evt.target.hash);
     }
   }
 }

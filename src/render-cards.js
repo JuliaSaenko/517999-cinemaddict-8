@@ -7,6 +7,7 @@ const getCardsData = [];
 
 let CARDS_COUNT = 7;
 
+
 const updateCard = (cards, i, newCard) => {
   cards[i] = Object.assign({}, cards[i], newCard);
   return cards[i];
@@ -37,19 +38,19 @@ const renderCards = (array) => {
       cardDetails.unRender();
     };
 
-    newCard.onAddToWatchList = (state) => {
-      array[i].isInWatchlist = state;
-      cardDetails.update(array[i]);
+    newCard.onAddToWatchList = (item) => {
+      item.isInWatchlist = !item.isInWatchlist;
+      cardDetails.update(item);
     };
 
-    newCard.onMarkAsWatched = (state) => {
-      newCard.isWatched = state;
-      cardDetails.update(newCard);
+    newCard.onMarkAsWatched = (item) => {
+      item.isWatched = !item.isWatched;
+      cardDetails.update(item);
     };
 
-    newCard.onAddToFavorite = (state) => {
-      newCard.isFavorite = state;
-      cardDetails.update(newCard);
+    newCard.onAddToFavorite = (item) => {
+      item.isFavorite = !item.isFavorite;
+      cardDetails.update(item);
     };
 
     fragment.appendChild(newCard.render());
@@ -63,6 +64,14 @@ for (let i = 0; i < CARDS_COUNT; i++) {
   getCardsData.push(getDataForCard());
 }
 
-const cardsData = renderCards(CARDS_COUNT);
+function createData(count) {
+  let result = [];
+  for (let i = 0; i < count; i++) {
+    result.push(getDataForCard());
+  }
+  return result;
+}
+
+const cardsData = createData(CARDS_COUNT);
 
 export {renderCards, getCardsData, cardsData};
