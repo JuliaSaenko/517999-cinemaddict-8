@@ -79,6 +79,7 @@ function statsInit(data) {
 function getStats(data) {
   const watchedStats = {};
   getWatchedFilms(data).forEach((item) => {
+    console.log(genre);
     item.genre.forEach((value) => {
       if (watchedStats.hasOwnProperty(value)) {
         watchedStats[value]++;
